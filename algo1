@@ -1,0 +1,92 @@
+from array import *
+import math
+# Online Python compiler (interpreter) to run Python online.
+# Write Python 3 code in this online editor and run it.
+import string
+
+def encrypt(message):
+    
+    if len(message) % 3 != 0:
+        message += ' '
+        
+    if len(message) % 3 != 0:
+        message += ' '
+    l1 = [] 
+    l2 = []
+    
+    all_letters= string.ascii_letters
+        
+    for c in message:
+        ascii = ord(c)
+        l1.append(f'{ascii:03}')
+    
+    print("Cipher 1")
+    print(l1)
+    print("\n")
+    cipherText1 = ''
+    
+    for j in range(int(len(l1) / 2)):
+            a = l1[j];
+            b = l1[len(l1) - j - 1]
+            l1[j] = b
+            l1[len(l1) - j - 1] = a
+            # print(a,b,l1,j,len(l1) - j - 1)
+            
+    for i in range(len(l1)):
+        cipherText1 += l1[i];
+        
+    print("Transposed")
+    print(l1)
+    print("\n")
+    
+    cipherText = ''
+    for i in cipherText1:
+        cipherText += all_letters[int(i)]
+        
+    return cipherText
+
+def decrypt(cipherText1):
+    
+    all_letters= string.ascii_letters
+    
+    letters = {}
+    for l in range(len(all_letters)):
+        letters[all_letters[l]] = l;
+        
+    cipherText = ''
+    for c in cipherText1:
+        cipherText += str(letters[c])
+    
+    # print(cipherText)
+    n = 3
+    split_string = [cipherText[i:i+n] for i in range(0, len(cipherText), n)]
+    
+    
+    for j in range(int(len(split_string) / 2)):
+        a = split_string[j];
+        b = split_string[len(split_string) - j - 1]
+        split_string[j] = b
+        split_string[len(split_string) - j - 1] = a
+        
+    print("Transposed Reverse")
+    print(split_string)
+    print("\n")
+    
+    l2 = ''.join(split_string)
+    l2 = split_string
+    plainText = ''
+    for i in range(len(l2)):
+        plainText += chr(int(l2[i]))
+            
+    return plainText
+
+
+message = 'We are studying Cryptography'
+
+print("\n\n Message : ",message)
+cipherText = encrypt(message)
+
+print("Cipher Text")
+print(cipherText)
+print("\n")
+print(decrypt(cipherText))
